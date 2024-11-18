@@ -1,67 +1,82 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Predicción de Bicicletas</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Gestión de Bicicletas</title>
+    <link rel="stylesheet" href="index.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Predicción de Bicicletas</h1>
-        
-        <h2>Menú</h2>
-        <form method="POST" action="/opcion" id="menuForm">
-            <label for="opcion">Selecciona una opción:</label>
-            <select id="opcion" name="opcion">
-                <option value="1">Generar una nueva matriz de distribución de bicicletas</option>
-                <option value="2">Ver la tabla completa de 30 días</option>
-                <option value="3">Consultar la estación de una bicicleta en un día específico</option>
-                <option value="4">Calcular la matriz de transición</option>
-                <option value="5">Calcular la probabilidad de que una bicicleta pase de una estación X a una estación Y en n días</option>
-                <option value="6">Calcular la distribución de las bicicletas en las 12 estaciones a largo plazo</option>
+    <header>
+        <h1>Simulación de Uso de Bicicletas Compartidas</h1>
+    </header>
+
+    <main>
+        <section>
+            <h2>Configuración Inicial</h2>
+            <form id="formConfig">
+                <label for="bicicletas">Número de bicicletas:</label>
+                <input type="number" id="bicicletas" min="1" required>
+
+                <label for="dias">Número de días:</label>
+                <input type="number" id="dias" min="1" required>
+
+                <label for="estaciones">Número de estaciones:</label>
+                <input type="number" id="estaciones" min="1" required>
+
+                <button type="button" onclick="configurar()">Configurar</button>
+            </form>
+        </section>
+
+        <section>
+            <h2>Acciones</h2>
+            <select id="menuOpciones" onchange="mostrarOpcion()">
+                <option value="">Selecciona una acción</option>
+                <option value="generarMatriz">Generar Matriz</option>
+                <option value="consultarEstacion">Consultar Estación</option>
+                <option value="mostrarMatrizTransicion">Mostrar Matriz de Transición</option>
+                <option value="calcularProbabilidad">Calcular Probabilidad</option>
             </select>
-            <br><br>
 
-            <!-- Inputs para opciones 3 y 5 -->
-            <div id="opcion_3" style="display: none;">
-                <label for="dia">Día (1-30):</label>
-                <input type="number" id="dia" name="dia" min="1" max="30">
-                
-                <label for="bicicleta">Número de Bicicleta (1-140):</label>
-                <input type="number" id="bicicleta" name="bicicleta" min="1" max="140">
+            <div id="generarMatriz" class="opcion" style="display: none;">
+                <button onclick="generarMatriz()">Generar Matriz</button>
+                <button onclick="mostrarMatriz()">Mostrar Matriz</button>
             </div>
 
-            <div id="opcion_5" style="display: none;">
+            <div id="consultarEstacion" class="opcion" style="display: none;">
+                <label for="dia">Día:</label>
+                <input type="number" id="dia" min="1">
+
+                <label for="bicicleta">Bicicleta:</label>
+                <input type="number" id="bicicleta" min="1">
+
+                <button onclick="consultarEstacion()">Consultar</button>
+            </div>
+
+            <div id="mostrarMatrizTransicion" class="opcion" style="display: none;">
+                <button onclick="mostrarMatrizTransicion()">Generar y Mostrar Matriz de Transición</button>
+            </div>
+
+            <div id="calcularProbabilidad" class="opcion" style="display: none;">
                 <label for="estacion_inicial">Estación Inicial:</label>
-                <input type="text" id="estacion_inicial" name="estacion_inicial" placeholder="Ejemplo: E1">
-                
+                <input type="number" id="estacion_inicial" min="1">
+
                 <label for="estacion_final">Estación Final:</label>
-                <input type="text" id="estacion_final" name="estacion_final" placeholder="Ejemplo: E2">
-                
-                <label for="n_dias">Número de Días:</label>
-                <input type="number" id="n_dias" name="n_dias" min="1">
+                <input type="number" id="estacion_final" min="1">
+
+                <label for="n_dias">Días:</label>
+                <input type="number" id="n_dias" min="1">
+
+                <button onclick="calcularProbabilidad()">Calcular</button>
             </div>
+        </section>
 
-            <button type="submit">Ejecutar</button>
-        </form>
+        <section id="resultado">
+            <h2>Resultado</h2>
+            <pre id="resultadoTexto"></pre>
+        </section>
+    </main>
 
-        <!-- Contenedor de desplazamiento para la tabla -->
-        <div class="scroll-container">
-            {% if resultado %}
-                <h3>Resultado:</h3>
-                <pre>{{ resultado }}</pre>
-            {% endif %}
-        </div>
-    </div>
-
-    <script>
-        // Mostrar los campos adicionales según la opción seleccionada
-        document.getElementById('opcion').addEventListener('change', function() {
-            var opcion = this.value;
-            document.getElementById('opcion_3').style.display = (opcion == '3') ? 'block' : 'none';
-            document.getElementById('opcion_5').style.display = (opcion == '5') ? 'block' : 'none';
-        });
-    </script>
+    <script src="index.js"></script>
 </body>
 </html>
