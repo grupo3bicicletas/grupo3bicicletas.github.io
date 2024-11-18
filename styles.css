@@ -1,0 +1,79 @@
+body {
+    font-family: Arial, sans-serif;
+    background-image: url('/static/images/imagebici.jpeg');  /* Ruta relativa dentro de static */
+    background-size: cover;  /* Cubre toda la pantalla */
+    background-attachment: fixed;  /* Fondo fijo al hacer scroll */
+    background-position: center;
+    background-repeat: no-repeat;  /* No repite la imagen */
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 80%;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.9);  /* Fondo blanco con transparencia */
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+h1, h2 {
+    text-align: center;
+    color: #333;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-top: 10px;
+    color: #555;
+}
+
+input, select {
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+button {
+    padding: 10px;
+    background-color: #5cb85c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #4cae4c;
+}
+
+h3 {
+    text-align: left;
+    color: #333;
+    margin-top: 20px;
+}
+
+.scroll-container {
+    width: 100%;   /* Ocupa todo el ancho disponible */
+    overflow-x: auto;  /* Habilita scroll horizontal */
+    overflow-y: hidden;  /* Desactiva el scroll vertical */
+    background-color: #f9f9f9;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    white-space: nowrap;  /* Evita que el contenido se rompa en múltiples líneas */
+}
+
+pre {
+    white-space: pre;  /* Mantiene el formato original de la tabla y permite scroll horizontal */
+    font-family: monospace;
+}
+
