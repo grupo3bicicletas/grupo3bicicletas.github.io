@@ -1,0 +1,3 @@
+document.getElementById("actionButton").addEventListener("click", () => {
+  alert("¡Hola! Esto es una demostración de un botón animado.");
+});
