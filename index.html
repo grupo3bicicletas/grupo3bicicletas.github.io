@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Página Elegante</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <nav class="navbar">
+      <div class="logo">Mi Página</div>
+      <ul class="nav-links">
+        <li><a href="#home">Inicio</a></li>
+        <li><a href="#about">Sobre mí</a></li>
+        <li><a href="#contact">Contacto</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section id="home" class="hero">
+    <div class="hero-content">
+      <h1>Bienvenido a Mi Página</h1>
+      <p>Explora, aprende y conecta. ¡Haz que hoy sea especial!</p>
+      <a href="#contact" class="btn">Contáctame</a>
+    </div>
+  </section>
+
+  <section id="about" class="about">
+    <h2>Sobre mí</h2>
+    <p>Soy un desarrollador web apasionado por crear interfaces atractivas y funcionales. Siempre busco aprender y mejorar mis habilidades.</p>
+  </section>
+
+  <section id="contact" class="contact">
+    <h2>Contáctame</h2>
+    <form id="contactForm">
+      <label for="name">Nombre</label>
+      <input type="text" id="name" name="name" placeholder="Tu nombre" required>
+      
+      <label for="email">Correo</label>
+      <input type="email" id="email" name="email" placeholder="Tu correo electrónico" required>
+      
+      <label for="message">Mensaje</label>
+      <textarea id="message" name="message" placeholder="Escribe tu mensaje" required></textarea>
+      
+      <button type="submit" class="btn">Enviar</button>
+    </form>
+    <p id="responseMessage" class="hidden"></p>
+  </section>
+
+  <footer>
+    <p>&copy; 2024 Mi Página. Todos los derechos reservados.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
