@@ -88,8 +88,43 @@ function calcularDistribucionEstacionaria() {
     document.getElementById('resultados').innerHTML = `<pre>${resultado}</pre>`;
 }
 
+// Función para calcular la probabilidad de ir de una estación a otra en 'n' días
+function calcularProbabilidad() {
+    if (!matrizTransicion.length) {
+        alert('Primero calcula la matriz de transición.');
+        return;
+    }
+
+    const dias = parseInt(document.getElementById('diasProbabilidad').value);
+    const estacionOrigen = parseInt(document.getElementById('estacionOrigen').value) - 1;
+    const estacionDestino = parseInt(document.getElementById('estacionDestino').value) - 1;
+
+    let matrizPotencia = [...matrizTransicion];
+    for (let i = 1; i < dias; i++) {
+        matrizPotencia = multiplicarMatrices(matrizPotencia, matrizTransicion);
+    }
+
+    const probabilidad = matrizPotencia[estacionOrigen][estacionDestino].toFixed(4);
+    document.getElementById('resultados').innerHTML = `<p>La probabilidad de ir de E${estacionOrigen + 1} a E${estacionDestino + 1} en ${dias} días es: ${probabilidad}</p>`;
+}
+
+// Función para multiplicar matrices
+function multiplicarMatrices(A, B) {
+    const n = A.length;
+    const resultado = Array.from({ length: n }, () => Array(n).fill(0));
+    for (let i = 0; i < n; i++) {
+        for (let j = 0; j < n; j++) {
+            for (let k = 0; k < n; k++) {
+                resultado[i][j] += A[i][k] * B[k][j];
+            }
+        }
+    }
+    return resultado;
+}
+
 // Eventos
 document.getElementById('generarMatriz').addEventListener('click', generarMatriz);
 document.getElementById('verMatriz').addEventListener('click', mostrarMatrizBicicletas);
 document.getElementById('verMatrizTransicion').addEventListener('click', calcularMatrizTransicion);
 document.getElementById('verDistribucionEstacionaria').addEventListener('click', calcularDistribucionEstacionaria);
+document.getElementById('calcularProbabilidad').addEventListener('click', calcularProbabilidad);
