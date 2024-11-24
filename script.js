@@ -2,6 +2,7 @@
 let bicicletasData = [];
 let matrizTransicion = [];
 let estaciones = [];
+let distribucionEstacionaria = [];
 
 // Función para generar la matriz de bicicletas
 function generarMatriz() {
@@ -9,10 +10,8 @@ function generarMatriz() {
     const numBicicletas = parseInt(document.getElementById('numBicicletas').value);
     const numDias = parseInt(document.getElementById('numDias').value);
 
-    // Definir las estaciones
     estaciones = Array.from({ length: numEstaciones }, (_, i) => `E${i + 1}`);
 
-    // Crear la matriz de bicicletas (cada bicicleta tiene una lista de estaciones visitadas por día)
     bicicletasData = Array.from({ length: numBicicletas }, () =>
         Array.from({ length: numDias }, () => estaciones[Math.floor(Math.random() * numEstaciones)])
     );
@@ -28,7 +27,6 @@ function mostrarMatrizBicicletas() {
     }
 
     let resultado = '';
-    // Mostrar las bicicletas y las estaciones visitadas por día
     bicicletasData.forEach((bicicleta, index) => {
         resultado += `B${index + 1}: ${bicicleta.join(', ')}\n`;
     });
@@ -54,13 +52,11 @@ function calcularMatrizTransicion() {
         }
     });
 
-    // Normalizar las columnas de la matriz de transición
     matrizTransicion = matrizTransicion.map(col =>
         col.map(val => val / (col.reduce((acc, x) => acc + x, 0) || 1))
     );
 
     let resultado = '';
-    // Mostrar la matriz de transición
     matrizTransicion.forEach((fila, index) => {
         resultado += `De ${estaciones[index]}: ${fila.map(v => v.toFixed(2)).join(', ')}\n`;
     });
@@ -89,9 +85,78 @@ function calcularDistribucionEstacionaria() {
     }
 
     let resultado = '';
-    // Mostrar la distribución estacionaria
     estaciones.forEach((estacion, index) => {
         resultado += `${estacion}: ${vector[index].toFixed(4)}\n`;
+    });
+
+    document.getElementById('resultados').innerHTML = `<pre>${resultado}</pre>`;
+}
+
+// Función para calcular la probabilidad de una bicicleta en una estación dada
+function calcularProbabilidad() {
+    if (!bicicletasData.length) {
+        alert('Primero genera la matriz de bicicletas.');
+        return;
+    }
+
+    const probabilidad = bicicletasData.reduce((acc, bicicleta) => {
+        bicicleta.forEach((estacion) => {
+            const index = estaciones.indexOf(estacion);
+            if (index !== -1) acc[index]++;
+        });
+        return acc;
+    }, Array(estaciones.length).fill(0));
+
+    const resultado = probabilidad
+        .map((val, index) => `${estaciones[index]}: ${(val / bicicletasData.length).toFixed(4)}`)
+        .join('\n');
+
+    document.getElementById('resultados').innerHTML = `<pre>${resultado}</pre>`;
+}
+
+// Función para mostrar la matriz estacionaria
+function calcularMatrizEstacionaria() {
+    if (!matrizTransicion.length) {
+        alert('Primero calcula la matriz de transición.');
+        return;
+    }
+
+    let estacionaria = Array(estaciones.length).fill(1 / estaciones.length);
+
+    // Iterar para encontrar la distribución estacionaria
+    for (let i = 0; i < 1000; i++) {
+        estacionaria = estacionaria.map((_, index) => {
+            return matrizTransicion[index].reduce((sum, value, idx) => {
+                return sum + value * estacionaria[idx];
+            }, 0);
+        });
+    }
+
+    let resultado = estacionaria
+        .map((val, index) => `${estaciones[index]}: ${val.toFixed(4)}`)
+        .join('\n');
+
+    document.getElementById('resultados').innerHTML = `<pre>${resultado}</pre>`;
+}
+
+// Función para calcular las transiciones entre estaciones
+function calcularTransiciones() {
+    if (!bicicletasData.length) {
+        alert('Primero genera la matriz de bicicletas.');
+        return;
+    }
+
+    let transiciones = {};
+    bicicletasData.forEach((bicicleta) => {
+        for (let i = 0; i < bicicleta.length - 1; i++) {
+            const key = `${bicicleta[i]}->${bicicleta[i + 1]}`;
+            transiciones[key] = (transiciones[key] || 0) + 1;
+        }
+    });
+
+    let resultado = '';
+    Object.keys(transiciones).forEach((key) => {
+        resultado += `${key}: ${transiciones[key]}\n`;
     });
 
     document.getElementById('resultados').innerHTML = `<pre>${resultado}</pre>`;
@@ -102,3 +167,6 @@ document.getElementById('generarMatriz').addEventListener('click', generarMatriz
 document.getElementById('verMatriz').addEventListener('click', mostrarMatrizBicicletas);
 document.getElementById('verMatrizTransicion').addEventListener('click', calcularMatrizTransicion);
 document.getElementById('verDistribucionEstacionaria').addEventListener('click', calcularDistribucionEstacionaria);
+document.getElementById('calcularProbabilidad').addEventListener('click', calcularProbabilidad);
+document.getElementById('calcularMatrizEstacionaria').addEventListener('click', calcularMatrizEstacionaria);
+document.getElementById('calcularTransiciones').addEventListener('click', calcularTransiciones);
