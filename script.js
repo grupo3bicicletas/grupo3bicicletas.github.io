@@ -1,120 +1,95 @@
 // Variables globales
-let numBicicletas = 140;
-let numEstaciones = 12;
-let numDias = 30;
-let estaciones = Array.from({ length: numEstaciones }, (_, i) => `E${i + 1}`);
-let matrizBicicletas;
+let bicicletasData = [];
+let matrizTransicion = [];
+let estaciones = [];
 
-// Generar nueva matriz
-function generarNuevaMatriz() {
-    matrizBicicletas = Array.from({ length: numBicicletas }, () =>
+// Función para generar la matriz de bicicletas
+function generarMatriz() {
+    const numEstaciones = parseInt(document.getElementById('numEstaciones').value);
+    const numBicicletas = parseInt(document.getElementById('numBicicletas').value);
+    const numDias = parseInt(document.getElementById('numDias').value);
+
+    estaciones = Array.from({ length: numEstaciones }, (_, i) => `E${i + 1}`);
+    bicicletasData = Array.from({ length: numBicicletas }, () =>
         Array.from({ length: numDias }, () => estaciones[Math.floor(Math.random() * numEstaciones)])
     );
-    alert("Matriz de bicicletas generada correctamente.");
+
+    document.getElementById('resultados').innerHTML = '<p>Matriz generada correctamente.</p>';
 }
 
-// Mostrar matriz completa
-function mostrarMatriz() {
-    if (!matrizBicicletas) {
-        alert("Primero genera una matriz.");
-        return;
-    }
-    const resultado = matrizBicicletas
-        .map((bicicleta, index) => `B${index + 1}: ${bicicleta.join(", ")}`)
-        .join("<br>");
-    document.getElementById("matrizCompleta").innerHTML = `<pre>${resultado}</pre>`;
-}
-
-// Consultar estación de una bicicleta en un día
-function consultarEstacion(event) {
-    event.preventDefault();
-    if (!matrizBicicletas) {
-        alert("Primero genera una matriz.");
-        return;
-    }
-    const dia = parseInt(document.getElementById("dia").value) - 1;
-    const bicicleta = parseInt(document.getElementById("bicicleta").value) - 1;
-
-    if (dia < 0 || dia >= numDias || bicicleta < 0 || bicicleta >= numBicicletas) {
-        alert("Día o bicicleta fuera de rango.");
+// Función para mostrar la matriz de bicicletas
+function mostrarMatrizBicicletas() {
+    if (!bicicletasData.length) {
+        alert('Primero genera la matriz de bicicletas.');
         return;
     }
 
-    const estacion = matrizBicicletas[bicicleta][dia];
-    document.getElementById("resultadoConsulta").textContent = `El día ${dia + 1}, la bicicleta B${bicicleta + 1} estuvo en la estación ${estacion}.`;
+    const resultado = bicicletasData
+        .map((bicicleta, index) => `B${index + 1}: ${bicicleta.join(', ')}`)
+        .join('\n');
+
+    document.getElementById('resultados').innerHTML = `<pre>${resultado}</pre>`;
 }
 
-// Calcular matriz de transición
+// Función para calcular la matriz de transición
 function calcularMatrizTransicion() {
-    const transiciones = Array.from({ length: numEstaciones }, () => Array(numEstaciones).fill(0));
+    if (!bicicletasData.length) {
+        alert('Primero genera la matriz de bicicletas.');
+        return;
+    }
 
-    matrizBicicletas.forEach((bicicleta) => {
-        for (let i = 0; i < numDias - 1; i++) {
-            const estacionActual = estaciones.indexOf(bicicleta[i]);
-            const estacionSiguiente = estaciones.indexOf(bicicleta[i + 1]);
-            transiciones[estacionActual][estacionSiguiente]++;
+    const numEstaciones = estaciones.length;
+    matrizTransicion = Array.from({ length: numEstaciones }, () => Array(numEstaciones).fill(0));
+
+    bicicletasData.forEach(bicicleta => {
+        for (let i = 0; i < bicicleta.length - 1; i++) {
+            const origen = estaciones.indexOf(bicicleta[i]);
+            const destino = estaciones.indexOf(bicicleta[i + 1]);
+            matrizTransicion[origen][destino]++;
         }
     });
 
-    return transiciones.map((fila) => {
-        const total = fila.reduce((a, b) => a + b, 0);
-        return fila.map((valor) => (total > 0 ? valor / total : 1 / numEstaciones));
-    });
-}
+    // Normalizar columnas
+    matrizTransicion = matrizTransicion.map(col =>
+        col.map(val => val / (col.reduce((acc, x) => acc + x, 0) || 1))
+    );
 
-function mostrarMatrizTransicion() {
-    const matrizTransicion = calcularMatrizTransicion();
     const resultado = matrizTransicion
-        .map((fila, i) => `E${i + 1}: ${fila.map((v) => v.toFixed(2)).join(", ")}`)
-        .join("<br>");
-    document.getElementById("matrizTransicion").innerHTML = `<pre>${resultado}</pre>`;
+        .map((fila, index) => `De ${estaciones[index]}: ${fila.map(v => v.toFixed(2)).join(', ')}`)
+        .join('\n');
+
+    document.getElementById('resultados').innerHTML = `<pre>${resultado}</pre>`;
 }
 
-// Calcular probabilidad de transición
-function calcularProbabilidad(event) {
-    event.preventDefault();
-    const estacionInicial = document.getElementById("estacionInicial").value;
-    const estacionFinal = document.getElementById("estacionFinal").value;
-    const nDias = parseInt(document.getElementById("nDias").value);
-
-    const matrizTransicion = calcularMatrizTransicion();
-    let estado = Array(numEstaciones).fill(0);
-    estado[estaciones.indexOf(estacionInicial)] = 1;
-
-    for (let i = 0; i < nDias; i++) {
-        estado = estado.map((_, j) =>
-            estado.reduce((sum, prob, k) => sum + prob * matrizTransicion[k][j], 0)
-        );
+// Función para calcular la distribución estacionaria
+function calcularDistribucionEstacionaria() {
+    if (!matrizTransicion.length) {
+        alert('Primero calcula la matriz de transición.');
+        return;
     }
 
-    const probabilidad = estado[estaciones.indexOf(estacionFinal)].toFixed(4);
-    document.getElementById("resultadoProbabilidad").textContent = `La probabilidad de ir de ${estacionInicial} a ${estacionFinal} en ${nDias} días es ${probabilidad}.`;
-}
+    const numEstaciones = estaciones.length;
+    let vector = Array(numEstaciones).fill(1 / numEstaciones);
 
-// Calcular distribución estacionaria
-function calcularDistribucionEstacionaria() {
-    const matrizTransicion = calcularMatrizTransicion();
-    let estado = Array(numEstaciones).fill(1 / numEstaciones);
-
-    for (let i = 0; i < 100; i++) {
-        estado = estado.map((_, j) =>
-            estado.reduce((sum, prob, k) => sum + prob * matrizTransicion[k][j], 0)
-        );
+    for (let iter = 0; iter < 100; iter++) {
+        const nuevoVector = Array(numEstaciones).fill(0);
+        for (let i = 0; i < numEstaciones; i++) {
+            for (let j = 0; j < numEstaciones; j++) {
+                nuevoVector[i] += matrizTransicion[j][i] * vector[j];
+            }
+        }
+        vector = nuevoVector;
     }
 
     const resultado = estaciones
-        .map((estacion, i) => `${estacion}: ${estado[i].toFixed(4)}`)
-        .join("<br>");
-    document.getElementById("distribucionEstacionariaResultado").innerHTML = `<pre>${resultado}</pre>`;
+        .map((estacion, index) => `${estacion}: ${vector[index].toFixed(4)}`)
+        .join('\n');
+
+    document.getElementById('resultados').innerHTML = `<pre>${resultado}</pre>`;
 }
 
-// Mostrar opciones
-function mostrarOpcion() {
-    const opciones = document.querySelectorAll(".opcion");
-    opciones.forEach((opcion) => (opcion.style.display = "none"));
-
-    const seleccion = document.getElementById("menuOpciones").value;
-    if (seleccion) {
-        document.getElementById(seleccion).style.display = "block";
-    }
-}
+// Eventos
+document.getElementById('generarMatriz').addEventListener('click', generarMatriz);
+document.getElementById('verMatriz').addEventListener('click', mostrarMatrizBicicletas);
+document.getElementById('verMatrizTransicion').addEventListener('click', calcularMatrizTransicion);
+document.getElementById('verDistribucionEstacionaria').addEventListener('click', calcularDistribucionEstacionaria);
