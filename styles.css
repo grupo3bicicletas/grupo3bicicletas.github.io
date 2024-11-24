@@ -13,7 +13,7 @@ body {
 /* Contenedor principal */
 .container {
     background-color: #2b2d42;
-    padding: 20px;
+    padding: 30px;
     border-radius: 10px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
     width: 70%;
@@ -23,26 +23,27 @@ body {
 
 /* Título */
 h1 {
-    font-size: 2rem;
-    margin-bottom: 20px;
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+    color: #f1fa8c;
 }
 
 /* Sección de configuración */
 .inputs label {
     margin: 10px 0;
     display: block;
-    font-size: 1rem;
+    font-size: 1.1rem;
 }
 
 .inputs input {
     background-color: #3a3f58;
     color: white;
-    padding: 10px;
+    padding: 12px;
     margin: 10px 0;
     border: none;
     border-radius: 5px;
     width: 100%;
-    font-size: 1rem;
+    font-size: 1.1rem;
     box-sizing: border-box;
 }
 
@@ -54,11 +55,11 @@ h1 {
 .inputs button {
     background-color: #f1fa8c;
     color: #2b2d42;
-    padding: 10px 20px;
+    padding: 12px 25px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 1rem;
+    font-size: 1.1rem;
     transition: background-color 0.3s;
 }
 
@@ -68,33 +69,47 @@ h1 {
 
 /* Menú de opciones */
 .menu {
-    margin-top: 20px;
+    margin-top: 30px;
+}
+
+.menu h2 {
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+}
+
+.menu select {
+    background-color: #3a3f58;
+    color: white;
+    padding: 12px;
+    font-size: 1.1rem;
+    border-radius: 5px;
+    width: 100%;
+    margin: 10px 0;
 }
 
 .menu button {
-    background-color: #3a3f58;
-    color: white;
-    padding: 10px 20px;
+    background-color: #f1fa8c;
+    color: #2b2d42;
+    padding: 12px 25px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 1rem;
-    margin: 10px;
+    font-size: 1.1rem;
     transition: background-color 0.3s;
 }
 
 .menu button:hover {
-    background-color: #4b4e69;
+    background-color: #f0e68c;
 }
 
 /* Sección de resultados */
 .resultados {
-    margin-top: 20px;
+    margin-top: 30px;
     background-color: #1f1f2e;
     padding: 20px;
     border-radius: 10px;
     min-height: 100px;
     box-sizing: border-box;
-    font-size: 1rem;
+    font-size: 1.1rem;
     white-space: pre-wrap;
 }
