@@ -51,16 +51,16 @@ function calcularMatrizTransicion() {
         col.map((val) => val / (col.reduce((acc, x) => acc + x, 0) || 1))
     );
 
+    matrizTransicion = matrizTransicion.map((fila, index) => 
+        `De ${estaciones[index]}: ${fila.map((v) => v.toFixed(2)).join(', ')}`
+    ).join('\n');
+
     mostrarResultadoMatriz(matrizTransicion);
 }
 
 // Función para mostrar el resultado de la matriz de transición
 function mostrarResultadoMatriz(matriz) {
-    const resultado = matriz
-        .map((fila, index) => `De ${estaciones[index]}: ${fila.map((v) => v.toFixed(2)).join(', ')}`)
-        .join('\n');
-
-    document.getElementById('resultados').innerHTML = `<pre>${resultado}</pre>`;
+    document.getElementById('resultados').innerHTML = `<pre>${matriz}</pre>`;
 }
 
 // Función para calcular la distribución estacionaria
