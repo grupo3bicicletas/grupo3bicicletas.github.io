@@ -1,57 +1,77 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Página Elegante</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Predicción de Bicicletas</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header>
-    <nav class="navbar">
-      <div class="logo">Mi Página</div>
-      <ul class="nav-links">
-        <li><a href="#home">Inicio</a></li>
-        <li><a href="#about">Sobre mí</a></li>
-        <li><a href="#contact">Contacto</a></li>
-      </ul>
-    </nav>
-  </header>
+    <div class="container">
+        <h1>Predicción de Bicicletas</h1>
 
-  <section id="home" class="hero">
-    <div class="hero-content">
-      <h1>Bienvenido a Mi Página</h1>
-      <p>Explora, aprende y conecta. ¡Haz que hoy sea especial!</p>
-      <a href="#contact" class="btn">Contáctame</a>
+        <!-- Menú de selección de opciones -->
+        <label for="menuOpciones">Selecciona una opción:</label>
+        <select id="menuOpciones" onchange="mostrarOpcion()">
+            <option value="">Selecciona una opción:</option>
+            <option value="generarMatriz">Generar nueva matriz de bicicletas</option>
+            <option value="verMatriz">Mostrar matriz completa de bicicletas</option>
+            <option value="consultarEstacion">Consultar estación de una bicicleta en un día específico</option>
+            <option value="transicion">Mostrar matriz de transición</option>
+            <option value="calcularProbabilidad">Calcular probabilidad de ir de una estación a otra en 'n' días</option>
+            <option value="distribucionEstacionaria">Calcular distribución estacionaria</option>
+        </select>
+
+        <!-- Formularios y secciones de cada opción -->
+        <div id="generarMatriz" class="opcion" style="display: none;">
+            <button onclick="generarNuevaMatriz()" class="boton-principal">Generar Matriz de Bicicletas</button>
+        </div>
+
+        <div id="verMatriz" class="opcion" style="display: none;">
+            <button onclick="mostrarMatriz()" class="boton-principal">Ver Matriz Completa de Bicicletas</button>
+            <div id="matrizCompleta"></div>
+        </div>
+
+        <div id="consultarEstacion" class="opcion" style="display: none;">
+            <form onsubmit="consultarEstacion(event)">
+                <label for="dia">Día:</label>
+                <input type="number" id="dia" min="1" required>
+
+                <label for="bicicleta">Bicicleta:</label>
+                <input type="number" id="bicicleta" min="1" required>
+
+                <button type="submit" class="boton-principal">Consultar Estación</button>
+            </form>
+            <p id="resultadoConsulta"></p>
+        </div>
+
+        <div id="transicion" class="opcion" style="display: none;">
+            <button onclick="mostrarMatrizTransicion()" class="boton-principal">Mostrar Matriz de Transición</button>
+            <div id="matrizTransicion"></div>
+        </div>
+
+        <div id="calcularProbabilidad" class="opcion" style="display: none;">
+            <form onsubmit="calcularProbabilidad(event)">
+                <label for="estacionInicial">Estación Inicial:</label>
+                <input type="text" id="estacionInicial" required>
+
+                <label for="estacionFinal">Estación Final:</label>
+                <input type="text" id="estacionFinal" required>
+
+                <label for="nDias">Número de días:</label>
+                <input type="number" id="nDias" min="1" required>
+
+                <button type="submit" class="boton-principal">Calcular Probabilidad</button>
+            </form>
+            <p id="resultadoProbabilidad"></p>
+        </div>
+
+        <div id="distribucionEstacionaria" class="opcion" style="display: none;">
+            <button onclick="calcularDistribucionEstacionaria()" class="boton-principal">Calcular Distribución Estacionaria</button>
+            <div id="distribucionEstacionariaResultado"></div>
+        </div>
     </div>
-  </section>
 
-  <section id="about" class="about">
-    <h2>Sobre mí</h2>
-    <p>Soy un desarrollador web apasionado por crear interfaces atractivas y funcionales. Siempre busco aprender y mejorar mis habilidades.</p>
-  </section>
-
-  <section id="contact" class="contact">
-    <h2>Contáctame</h2>
-    <form id="contactForm">
-      <label for="name">Nombre</label>
-      <input type="text" id="name" name="name" placeholder="Tu nombre" required>
-      
-      <label for="email">Correo</label>
-      <input type="email" id="email" name="email" placeholder="Tu correo electrónico" required>
-      
-      <label for="message">Mensaje</label>
-      <textarea id="message" name="message" placeholder="Escribe tu mensaje" required></textarea>
-      
-      <button type="submit" class="btn">Enviar</button>
-    </form>
-    <p id="responseMessage" class="hidden"></p>
-  </section>
-
-  <footer>
-    <p>&copy; 2024 Mi Página. Todos los derechos reservados.</p>
-  </footer>
-
-  <script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
