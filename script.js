@@ -51,10 +51,6 @@ function calcularMatrizTransicion() {
         col.map((val) => val / (col.reduce((acc, x) => acc + x, 0) || 1))
     );
 
-    matrizTransicion = matrizTransicion.map((fila, index) => 
-        `De ${estaciones[index]}: ${fila.map((v) => v.toFixed(2)).join(', ')}`
-    ).join('\n');
-
     mostrarResultadoMatriz(matrizTransicion);
 }
 
@@ -94,7 +90,34 @@ function mostrarResultadoDistribucion(vector) {
     document.getElementById('resultados').innerHTML = `<pre>${resultado}</pre>`;
 }
 
-// Manejo del evento para seleccionar la opción y ejecutar la función correspondiente
+// Función para calcular la probabilidad de ir de una estación a otra en n días
+function calcularProbabilidad() {
+    const estacionOrigen = document.getElementById('estacionOrigen').value;
+    const estacionDestino = document.getElementById('estacionDestino').value;
+    const dias = parseInt(document.getElementById('diasProbabilidad').value);
+
+    if (!estacionOrigen || !estacionDestino || isNaN(dias)) {
+        alert('Por favor, ingrese todos los datos correctamente.');
+        return;
+    }
+
+    const origenIndex = estaciones.indexOf(estacionOrigen);
+    const destinoIndex = estaciones.indexOf(estacionDestino);
+
+    if (origenIndex === -1 || destinoIndex === -1) {
+        alert('Estación no válida.');
+        return;
+    }
+
+    let probabilidad = matrizTransicion[origenIndex][destinoIndex];
+    for (let i = 1; i < dias; i++) {
+        probabilidad = matrizTransicion[origenIndex][destinoIndex] * probabilidad;
+    }
+
+    document.getElementById('resultados').innerHTML = `La probabilidad de ir de ${estacionOrigen} a ${estacionDestino} en ${dias} días es: ${probabilidad.toFixed(4)}`;
+}
+
+// Mostrar formularios cuando el usuario selecciona una opción
 document.getElementById('ejecutarOpcion').addEventListener('click', () => {
     const opcion = document.getElementById('selectorOpciones').value;
     switch (opcion) {
@@ -110,7 +133,20 @@ document.getElementById('ejecutarOpcion').addEventListener('click', () => {
         case 'calcularDistribucion':
             calcularDistribucionEstacionaria();
             break;
+        case 'calcularProbabilidad':
+            document.getElementById('formularioProbabilidad').style.display = 'block';
+            break;
         default:
             alert('Por favor, selecciona una opción válida.');
     }
+});
+
+// Calcular probabilidad cuando el usuario hace clic en el botón
+document.getElementById('calcularProbabilidadBtn').addEventListener('click', () => {
+    calcularProbabilidad();
+});
+
+// Mostrar cálculo de distribución estacionaria
+document.getElementById('calcularEstacionariaBtn').addEventListener('click', () => {
+    calcularDistribucionEstacionaria();
 });

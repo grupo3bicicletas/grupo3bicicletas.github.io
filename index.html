@@ -21,7 +21,27 @@
             </select>
             <button id="ejecutarOpcion">Seleccionar opción</button>
         </div>
+
+        <!-- Div donde se mostrarán los resultados -->
         <div id="resultados" class="resultados"></div>
+
+        <!-- Formularios para ingresar datos de las opciones -->
+        <div id="formularioProbabilidad" class="formulario" style="display: none;">
+            <label for="estacionOrigen">Estación de origen:</label>
+            <select id="estacionOrigen"></select>
+
+            <label for="estacionDestino">Estación de destino:</label>
+            <select id="estacionDestino"></select>
+
+            <label for="diasProbabilidad">Número de días:</label>
+            <input type="number" id="diasProbabilidad" min="1">
+
+            <button id="calcularProbabilidadBtn">Calcular probabilidad</button>
+        </div>
+
+        <div id="formularioEstacionaria" class="formulario" style="display: none;">
+            <button id="calcularEstacionariaBtn">Calcular distribución estacionaria</button>
+        </div>
     </div>
 
     <script src="script.js"></script>
