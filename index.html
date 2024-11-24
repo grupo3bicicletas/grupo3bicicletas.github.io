@@ -10,35 +10,33 @@
     <div class="container">
         <h1>Simulador de Bicicletas</h1>
 
-        <!-- Sección de configuración -->
+        <!-- Configuración inicial -->
         <div class="inputs">
             <label for="numEstaciones">Número de estaciones:</label>
-            <input type="number" id="numEstaciones" min="2" max="50" value="12">
+            <input type="number" id="numEstaciones" min="2" max="50" value="12" required>
 
             <label for="numBicicletas">Número de bicicletas:</label>
-            <input type="number" id="numBicicletas" min="1" max="200" value="140">
+            <input type="number" id="numBicicletas" min="1" max="200" value="140" required>
 
             <label for="numDias">Número de días:</label>
-            <input type="number" id="numDias" min="1" max="365" value="30">
+            <input type="number" id="numDias" min="1" max="365" value="30" required>
 
             <button id="generarMatriz">Generar Matriz</button>
         </div>
 
         <!-- Menú de opciones -->
         <div class="menu">
-            <h2>Selecciona una opción:</h2>
-            <select id="opciones">
-                <option value="">Selecciona una opción</option>
-                <option value="mostrarMatriz">Mostrar matriz de bicicletas</option>
-                <option value="mostrarMatrizTransicion">Matriz de transición</option>
-                <option value="distribucionEstacionaria">Distribución estacionaria</option>
-                <option value="calcularProbabilidad">Calcular probabilidad</option>
-            </select>
-            <button id="ejecutarOpcion">Ejecutar</button>
+            <h2>Opciones</h2>
+            <button id="verMatriz">Mostrar Matriz de Bicicletas</button>
+            <button id="verMatrizTransicion">Mostrar Matriz de Transición</button>
+            <button id="verDistribucionEstacionaria">Distribución Estacionaria</button>
+            <button id="calcularProbabilidad">Calcular Probabilidad</button>
         </div>
 
-        <!-- Contenedor de resultados -->
-        <div id="resultados" class="resultados"></div>
+        <!-- Resultados -->
+        <div id="resultados" class="resultados">
+            <p>Los resultados aparecerán aquí.</p>
+        </div>
     </div>
 
     <script src="script.js"></script>

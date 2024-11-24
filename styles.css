@@ -1,115 +1,74 @@
-/* Estilo base */
 body {
-    font-family: 'Arial', sans-serif;
-    background: linear-gradient(45deg, #4e54c8, #8f94fb);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+    font-family: Arial, sans-serif;
+    background-color: #eef2f3;
     margin: 0;
-    color: white;
+    padding: 0;
 }
 
-/* Contenedor principal */
 .container {
-    background-color: #2b2d42;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-    width: 70%;
     max-width: 800px;
-    text-align: center;
-}
-
-/* Título */
-h1 {
-    font-size: 2.5rem;
-    margin-bottom: 30px;
-    color: #f1fa8c;
-}
-
-/* Sección de configuración */
-.inputs label {
-    margin: 10px 0;
-    display: block;
-    font-size: 1.1rem;
-}
-
-.inputs input {
-    background-color: #3a3f58;
-    color: white;
-    padding: 12px;
-    margin: 10px 0;
-    border: none;
-    border-radius: 5px;
-    width: 100%;
-    font-size: 1.1rem;
-    box-sizing: border-box;
-}
-
-.inputs input:focus {
-    outline: none;
-    background-color: #4b4e69;
-}
-
-.inputs button {
-    background-color: #f1fa8c;
-    color: #2b2d42;
-    padding: 12px 25px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1.1rem;
-    transition: background-color 0.3s;
-}
-
-.inputs button:hover {
-    background-color: #f0e68c;
-}
-
-/* Menú de opciones */
-.menu {
-    margin-top: 30px;
-}
-
-.menu h2 {
-    font-size: 1.3rem;
-    margin-bottom: 10px;
-}
-
-.menu select {
-    background-color: #3a3f58;
-    color: white;
-    padding: 12px;
-    font-size: 1.1rem;
-    border-radius: 5px;
-    width: 100%;
-    margin: 10px 0;
-}
-
-.menu button {
-    background-color: #f1fa8c;
-    color: #2b2d42;
-    padding: 12px 25px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1.1rem;
-    transition: background-color 0.3s;
-}
-
-.menu button:hover {
-    background-color: #f0e68c;
-}
-
-/* Sección de resultados */
-.resultados {
-    margin-top: 30px;
-    background-color: #1f1f2e;
+    margin: 20px auto;
+    background-color: #fff;
+    border-radius: 8px;
     padding: 20px;
-    border-radius: 10px;
-    min-height: 100px;
-    box-sizing: border-box;
-    font-size: 1.1rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.inputs, .menu {
+    margin-bottom: 20px;
+}
+
+label {
+    font-weight: bold;
+    display: block;
+    margin-top: 10px;
+    color: #555;
+}
+
+input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+button {
+    display: inline-block;
+    width: 100%;
+    padding: 10px 15px;
+    margin-top: 10px;
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+.resultados {
+    padding: 15px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    overflow-x: auto;
+    max-height: 400px;
+}
+
+.resultados pre {
     white-space: pre-wrap;
+    word-wrap: break-word;
+    font-family: monospace;
+    color: #333;
 }
