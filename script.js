@@ -1,135 +1,13 @@
+// Variables globales
 let bicicletasData = [];
 let matrizTransicion = [];
 let estaciones = [];
-
-// Función para generar la matriz de bicicletas
-function generarMatriz() {
-    const numEstaciones = parseInt(document.getElementById('numEstaciones').value);
-    const numBicicletas = parseInt(document.getElementById('numBicicletas').value);
-    const numDias = parseInt(document.getElementById('numDias').value);
-
-    estaciones = Array.from({ length: numEstaciones }, (_, i) => `E${i + 1}`);
-    bicicletasData = Array.from({ length: numBicicletas }, () =>
-        Array.from({ length: numDias }, () => estaciones[Math.floor(Math.random() * numEstaciones)])
-    );
-
-    document.getElementById('resultados').innerHTML = '<p>Matriz generada correctamente.</p>';
-}
-
-// Función para mostrar la matriz de bicicletas
-function mostrarMatrizBicicletas() {
-    if (!bicicletasData.length) {
-        alert('Primero genera la matriz de bicicletas.');
-        return;
-    }
-
-    const resultado = bicicletasData
-        .map((bicicleta, index) => `B${index + 1}: ${bicicleta.join(', ')}`)
-        .join('\n');
-
-    document.getElementById('resultados').innerHTML = `<pre>${resultado}</pre>`;
-}
-
-// Función para calcular la matriz de transición
-function calcularMatrizTransicion() {
-    if (!bicicletasData.length) {
-        alert('Primero genera la matriz de bicicletas.');
-        return;
-    }
-
-    const numEstaciones = estaciones.length;
-    matrizTransicion = Array.from({ length: numEstaciones }, () => Array(numEstaciones).fill(0));
-
-    bicicletasData.forEach(bicicleta => {
-        for (let i = 0; i < bicicleta.length - 1; i++) {
-            const origen = estaciones.indexOf(bicicleta[i]);
-            const destino = estaciones.indexOf(bicicleta[i + 1]);
-            matrizTransicion[origen][destino]++;
-        }
-    });
-
-    // Normalizar columnas
-    matrizTransicion = matrizTransicion.map(col =>
-        col.map(val => val / (col.reduce((acc, x) => acc + x, 0) || 1))
-    );
-
-    const resultado = matrizTransicion
-        .map((fila, index) => `De ${estaciones[index]}: ${fila.map(v => v.toFixed(2)).join(', ')}`)
-        .join('\n');
-
-    document.getElementById('resultados').innerHTML = `<pre>${resultado}</pre>`;
-}
-
-// Función para calcular la distribución estacionaria
-function calcularDistribucionEstacionaria() {
-    if (!matrizTransicion.length) {
-        alert('Primero calcula la matriz de transición.');
-        return;
-    }
-
-    const numEstaciones = estaciones.length;
-    let vector = Array(numEstaciones).fill(1 / numEstaciones);
-
-    for (let iter = 0; iter < 100; iter++) {
-        const nuevoVector = Array(numEstaciones).fill(0);
-        for (let i = 0; i < numEstaciones; i++) {
-            for (let j = 0; j < numEstaciones; j++) {
-                nuevoVector[i] += matrizTransicion[j][i] * vector[j];
-            }
-        }
-        vector = nuevoVector;
-    }
-
-    const resultado = estaciones
-        .map((estacion, index) => `${estacion}: ${vector[index].toFixed(4)}`)
-        .join('\n');
-
-    document.getElementById('resultados').innerHTML = `<pre>${resultado}</pre>`;
-}
-
-// Función para consultar estación de una bicicleta en un día específico
-function consultarEstacion() {
-    const bicicletaId = prompt("Introduce el ID de la bicicleta (ej. B1, B2, etc.):");
-    const dia = parseInt(prompt("Introduce el día (1, 2, ..., n):")) - 1;
-
-    if (!bicicletasData.length) {
-        alert('Primero genera la matriz de bicicletas.');
-        return;
-    }
-
-    const bicicleta = bicicletasData[parseInt(bicicletaId.replace('B', '')) - 1];
-    const estacion = bicicleta[dia];
-    document.getElementById('resultados').innerHTML = `<p>Bicicleta ${bicicletaId} está en la estación ${estacion} en el día ${dia + 1}.</p>`;
-}
-
-// Función para calcular la probabilidad de ir de una estación a otra
-function calcularProbabilidad() {
-    const origen = prompt("Introduce la estación de origen:");
-    const destino = prompt("Introduce la estación de destino:");
-    const dias = parseInt(prompt("Introduce el número de días:"));
-
-    const origenIdx = estaciones.indexOf(origen);
-    const destinoIdx = estaciones.indexOf(destino);
-
-    if (origenIdx === -1 || destinoIdx === -1) {
-        alert("Estación no válida.");
-        return;
-    }
-
-    let probabilidad = matrizTransicion[origenIdx][destinoIdx];
-    document.getElementById('resultados').innerHTML = `<p>La probabilidad de ir de ${origen} a ${destino} en ${dias} días es: ${probabilidad.toFixed(2)}</p>`;
-}
-
-// Función para calcular probabilidad con vector personalizado
-function calcularProbabilidadVector() {
-    // Implementar según necesidad
-}
 
 // Manejo de selección de opciones en el menú
 document.getElementById('menuOpciones').addEventListener('change', function (e) {
     switch (e.target.value) {
         case "Configurar número de bicicletas, días y estaciones":
-            document.getElementById('generarMatriz').style.display = 'block';
+            document.getElementById('configuracionMatriz').style.display = 'block';
             break;
         case "Generar nueva matriz de bicicletas":
             generarMatriz();
@@ -154,3 +32,100 @@ document.getElementById('menuOpciones').addEventListener('change', function (e) 
             break;
     }
 });
+
+// Función para generar la matriz de bicicletas
+function generarMatriz() {
+    const numEstaciones = parseInt(document.getElementById('numEstaciones').value);
+    const numBicicletas = parseInt(document.getElementById('numBicicletas').value);
+    const numDias = parseInt(document.getElementById('numDias').value);
+
+    estaciones = Array.from({ length: numEstaciones }, (_, i) => `E${i + 1}`);
+    bicicletasData = Array.from({ length: numBicicletas }, () =>
+        Array.from({ length: numDias }, () => estaciones[Math.floor(Math.random() * numEstaciones)])
+    );
+
+    document.getElementById('resultados').innerHTML = '<p>Matriz generada correctamente.</p>';
+}
+
+// Función para mostrar la matriz completa de bicicletas
+function mostrarMatrizBicicletas() {
+    if (!bicicletasData.length) {
+        alert('Primero genera la matriz de bicicletas.');
+        return;
+    }
+
+    const resultado = bicicletasData
+        .map((bicicleta, index) => `B${index + 1}: ${bicicleta.join(', ')}`)
+        .join('\n');
+
+    document.getElementById('resultados').innerHTML = `<pre>${resultado}</pre>`;
+}
+
+// Función para consultar la estación de una bicicleta en un día específico
+function consultarEstacion() {
+    // Implementar la lógica para consultar la estación de una bicicleta en un día específico
+    const biciId = prompt('Ingresa el número de la bicicleta (1, 2, 3...):');
+    const dia = prompt('Ingresa el día (1, 2, 3...):');
+
+    const bicicleta = bicicletasData[parseInt(biciId) - 1];
+    if (bicicleta) {
+        const estacion = bicicleta[parseInt(dia) - 1];
+        document.getElementById('resultados').innerHTML = `Bicicleta ${biciId} en el día ${dia}: Estación ${estacion}`;
+    } else {
+        alert('Bicicleta no encontrada.');
+    }
+}
+
+// Función para calcular la matriz de transición
+function calcularMatrizTransicion() {
+    // Implementar la lógica para calcular la matriz de transición
+    let matriz = [];
+    for (let i = 0; i < estaciones.length; i++) {
+        matriz[i] = [];
+        for (let j = 0; j < estaciones.length; j++) {
+            let count = 0;
+            for (let k = 0; k < bicicletasData.length; k++) {
+                for (let l = 0; l < bicicletasData[k].length - 1; l++) {
+                    if (bicicletasData[k][l] === estaciones[i] && bicicletasData[k][l + 1] === estaciones[j]) {
+                        count++;
+                    }
+                }
+            }
+            matriz[i][j] = count;
+        }
+    }
+
+    document.getElementById('resultados').innerHTML = `<pre>${JSON.stringify(matriz, null, 2)}</pre>`;
+}
+
+// Función para calcular la probabilidad de ir de una estación a otra en 'n' días
+function calcularProbabilidad() {
+    // Implementar la lógica para calcular la probabilidad
+    const estacionInicio = prompt('Ingresa la estación de inicio:');
+    const estacionFin = prompt('Ingresa la estación de fin:');
+    const dias = prompt('Ingresa el número de días:');
+
+    // Lógica para calcular la probabilidad entre las estaciones en 'n' días
+    // (esto depende de la implementación de la matriz de transición)
+
+    document.getElementById('resultados').innerHTML = `Probabilidad de ir de ${estacionInicio} a ${estacionFin} en ${dias} días: X%`;
+}
+
+// Función para calcular la probabilidad con un vector personalizado
+function calcularProbabilidadVector() {
+    // Implementar la lógica para calcular la probabilidad con vector personalizado
+    const vector = prompt('Ingresa el vector personalizado (por ejemplo: "0.5, 0.3, 0.2"):');
+    const vectorArray = vector.split(',').map(Number);
+
+    // Lógica para calcular la probabilidad con el vector
+
+    document.getElementById('resultados').innerHTML = `Probabilidad con el vector personalizado: X%`;
+}
+
+// Función para calcular la distribución estacionaria
+function calcularDistribucionEstacionaria() {
+    // Implementar la lógica para calcular la distribución estacionaria
+    const distribucion = "X%"; // Lógica de distribución estacionaria aquí
+
+    document.getElementById('resultados').innerHTML = `Distribución estacionaria: ${distribucion}`;
+}
