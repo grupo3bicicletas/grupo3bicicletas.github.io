@@ -5,6 +5,9 @@ let estaciones = [];
 
 // Manejo de selección de opciones en el menú
 document.getElementById('menuOpciones').addEventListener('change', function (e) {
+    // Limpiar los resultados antes de mostrar nuevos resultados
+    document.getElementById('resultados').innerHTML = '';
+
     switch (e.target.value) {
         case "Configurar número de bicicletas, días y estaciones":
             document.getElementById('configuracionMatriz').style.display = 'block';
@@ -29,6 +32,9 @@ document.getElementById('menuOpciones').addEventListener('change', function (e) 
             break;
         case "Calcular distribución estacionaria":
             calcularDistribucionEstacionaria();
+            break;
+        default:
+            document.getElementById('configuracionMatriz').style.display = 'none';
             break;
     }
 });
@@ -55,15 +61,14 @@ function mostrarMatrizBicicletas() {
     }
 
     const resultado = bicicletasData
-        .map((bicicleta, index) => `B${index + 1}: ${bicicleta.join(', ')}`)
-        .join('\n');
+        .map((bicicleta, index) => `Bicicleta ${index + 1}: ${bicicleta.join(', ')}`)
+        .join('<br>');
 
     document.getElementById('resultados').innerHTML = `<pre>${resultado}</pre>`;
 }
 
 // Función para consultar la estación de una bicicleta en un día específico
 function consultarEstacion() {
-    // Implementar la lógica para consultar la estación de una bicicleta en un día específico
     const biciId = prompt('Ingresa el número de la bicicleta (1, 2, 3...):');
     const dia = prompt('Ingresa el día (1, 2, 3...):');
 
@@ -78,7 +83,6 @@ function consultarEstacion() {
 
 // Función para calcular la matriz de transición
 function calcularMatrizTransicion() {
-    // Implementar la lógica para calcular la matriz de transición
     let matriz = [];
     for (let i = 0; i < estaciones.length; i++) {
         matriz[i] = [];
@@ -100,31 +104,23 @@ function calcularMatrizTransicion() {
 
 // Función para calcular la probabilidad de ir de una estación a otra en 'n' días
 function calcularProbabilidad() {
-    // Implementar la lógica para calcular la probabilidad
     const estacionInicio = prompt('Ingresa la estación de inicio:');
     const estacionFin = prompt('Ingresa la estación de fin:');
     const dias = prompt('Ingresa el número de días:');
-
-    // Lógica para calcular la probabilidad entre las estaciones en 'n' días
-    // (esto depende de la implementación de la matriz de transición)
 
     document.getElementById('resultados').innerHTML = `Probabilidad de ir de ${estacionInicio} a ${estacionFin} en ${dias} días: X%`;
 }
 
 // Función para calcular la probabilidad con un vector personalizado
 function calcularProbabilidadVector() {
-    // Implementar la lógica para calcular la probabilidad con vector personalizado
     const vector = prompt('Ingresa el vector personalizado (por ejemplo: "0.5, 0.3, 0.2"):');
     const vectorArray = vector.split(',').map(Number);
-
-    // Lógica para calcular la probabilidad con el vector
 
     document.getElementById('resultados').innerHTML = `Probabilidad con el vector personalizado: X%`;
 }
 
 // Función para calcular la distribución estacionaria
 function calcularDistribucionEstacionaria() {
-    // Implementar la lógica para calcular la distribución estacionaria
     const distribucion = "X%"; // Lógica de distribución estacionaria aquí
 
     document.getElementById('resultados').innerHTML = `Distribución estacionaria: ${distribucion}`;
