@@ -107,14 +107,15 @@ function calcularProbabilidad() {
         return acc;
     }, Array(estaciones.length).fill(0));
 
-    const resultado = probabilidad
-        .map((val, index) => `${estaciones[index]}: ${(val / bicicletasData.length).toFixed(4)}`)
-        .join('\n');
+    let resultado = '';
+    probabilidad.forEach((count, index) => {
+        resultado += `${estaciones[index]}: ${(count / bicicletasData.length).toFixed(4)}\n`;
+    });
 
     document.getElementById('resultados').innerHTML = `<pre>${resultado}</pre>`;
 }
 
-// Función para mostrar la matriz estacionaria
+// Función para calcular la matriz estacionaria
 function calcularMatrizEstacionaria() {
     if (!matrizTransicion.length) {
         alert('Primero calcula la matriz de transición.');
@@ -162,11 +163,29 @@ function calcularTransiciones() {
     document.getElementById('resultados').innerHTML = `<pre>${resultado}</pre>`;
 }
 
-// Eventos
-document.getElementById('generarMatriz').addEventListener('click', generarMatriz);
-document.getElementById('verMatriz').addEventListener('click', mostrarMatrizBicicletas);
-document.getElementById('verMatrizTransicion').addEventListener('click', calcularMatrizTransicion);
-document.getElementById('verDistribucionEstacionaria').addEventListener('click', calcularDistribucionEstacionaria);
-document.getElementById('calcularProbabilidad').addEventListener('click', calcularProbabilidad);
-document.getElementById('calcularMatrizEstacionaria').addEventListener('click', calcularMatrizEstacionaria);
-document.getElementById('calcularTransiciones').addEventListener('click', calcularTransiciones);
+// Manejo del evento para seleccionar la opción y ejecutar la función correspondiente
+document.getElementById('ejecutarOpcion').addEventListener('click', () => {
+    const opcion = document.getElementById('selectorOpciones').value;
+    switch (opcion) {
+        case 'mostrarMatriz':
+            mostrarMatrizBicicletas();
+            break;
+        case 'calcularTransicion':
+            calcularMatrizTransicion();
+            break;
+        case 'calcularDistribucion':
+            calcularDistribucionEstacionaria();
+            break;
+        case 'calcularProbabilidad':
+            calcularProbabilidad();
+            break;
+        case 'calcularMatrizEstacionaria':
+            calcularMatrizEstacionaria();
+            break;
+        case 'calcularTransiciones':
+            calcularTransiciones();
+            break;
+        default:
+            alert('Por favor, selecciona una opción válida.');
+    }
+});

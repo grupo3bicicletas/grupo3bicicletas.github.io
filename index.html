@@ -26,15 +26,19 @@
             <button id="generarMatriz">Generar Matriz</button>
         </div>
 
-        <!-- Opciones -->
-        <div class="menu">
-            <h2>Opciones:</h2>
-            <button id="verMatriz">Mostrar matriz de bicicletas</button>
-            <button id="verMatrizTransicion">Matriz de transición</button>
-            <button id="verDistribucionEstacionaria">Distribución estacionaria</button>
-            <button id="calcularProbabilidad">Calcular probabilidad</button>
-            <button id="calcularMatrizEstacionaria">Matriz estacionaria</button>
-            <button id="calcularTransiciones">Calcular transiciones</button>
+        <!-- Selector para la opción -->
+        <div class="opciones">
+            <label for="selectorOpciones">Selecciona una opción:</label>
+            <select id="selectorOpciones">
+                <option value="" disabled selected>Seleccionar una opción</option>
+                <option value="mostrarMatriz">Mostrar matriz de bicicletas</option>
+                <option value="calcularTransicion">Matriz de transición</option>
+                <option value="calcularDistribucion">Distribución estacionaria</option>
+                <option value="calcularProbabilidad">Calcular probabilidad</option>
+                <option value="calcularMatrizEstacionaria">Matriz estacionaria</option>
+                <option value="calcularTransiciones">Calcular transiciones</option>
+            </select>
+            <button id="ejecutarOpcion">Ejecutar Opción</button>
         </div>
 
         <!-- Contenedor de resultados -->
