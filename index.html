@@ -1,33 +1,38 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simulador de Bicicletas</title>
     <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
     <div class="container">
-        <h1>Predicción de Bicicletas</h1>
+        <h1>Simulador de Bicicletas</h1>
 
-        <!-- Configuración -->
+        <!-- Sección de configuración -->
         <div class="inputs">
             <label for="numEstaciones">Número de estaciones:</label>
             <input type="number" id="numEstaciones" min="2" max="50" value="12">
 
             <label for="numBicicletas">Número de bicicletas:</label>
-            <input type="number" id="numBicicletas" min="1" max="200" value="20">
+            <input type="number" id="numBicicletas" min="1" max="200" value="140">
 
             <label for="numDias">Número de días:</label>
-            <input type="number" id="numDias" min="1" max="365" value="6">
+            <input type="number" id="numDias" min="1" max="365" value="30">
 
             <button id="generarMatriz">Generar Matriz</button>
         </div>
 
         <!-- Opciones -->
         <div class="menu">
-            <h2>Selecciona una opción:</h2>
+            <h2>Opciones:</h2>
             <button id="verMatriz">Mostrar matriz de bicicletas</button>
+            <button id="verMatrizTransicion">Matriz de transición</button>
+            <button id="verDistribucionEstacionaria">Distribución estacionaria</button>
+            <button id="calcularProbabilidad">Calcular probabilidad</button>
         </div>
 
         <!-- Contenedor de resultados -->
@@ -36,4 +41,5 @@
 
     <script src="script.js"></script>
 </body>
+
 </html>
