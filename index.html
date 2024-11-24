@@ -1,51 +1,29 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simulador de Bicicletas</title>
     <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
     <div class="container">
-        <h1>Simulador de Bicicletas</h1>
-
-        <!-- Sección de configuración -->
-        <div class="inputs">
-            <label for="numEstaciones">Número de estaciones:</label>
-            <input type="number" id="numEstaciones" min="2" max="50" value="12">
-
-            <label for="numBicicletas">Número de bicicletas:</label>
-            <input type="number" id="numBicicletas" min="1" max="200" value="140">
-
-            <label for="numDias">Número de días:</label>
-            <input type="number" id="numDias" min="1" max="365" value="30">
-
-            <button id="generarMatriz">Generar Matriz</button>
-        </div>
-
-        <!-- Selector para la opción -->
-        <div class="opciones">
+        <h1>Predicción de Bicicletas</h1>
+        <div class="formulario">
             <label for="selectorOpciones">Selecciona una opción:</label>
             <select id="selectorOpciones">
-                <option value="" disabled selected>Seleccionar una opción</option>
-                <option value="mostrarMatriz">Mostrar matriz de bicicletas</option>
-                <option value="calcularTransicion">Matriz de transición</option>
-                <option value="calcularDistribucion">Distribución estacionaria</option>
-                <option value="calcularProbabilidad">Calcular probabilidad</option>
-                <option value="calcularMatrizEstacionaria">Matriz estacionaria</option>
-                <option value="calcularTransiciones">Calcular transiciones</option>
+                <option value="generarMatriz">Generar nueva matriz de bicicletas</option>
+                <option value="mostrarMatriz">Mostrar matriz completa de bicicletas</option>
+                <option value="consultarEstacion">Consultar estación de una bicicleta en un día específico</option>
+                <option value="verTransicion">Mostrar matriz de transición</option>
+                <option value="calcularProbabilidad">Calcular probabilidad de ir de una estación a otra en 'n' días</option>
+                <option value="calcularDistribucion">Calcular distribución estacionaria</option>
             </select>
-            <button id="ejecutarOpcion">Ejecutar Opción</button>
+            <button id="ejecutarOpcion">Seleccionar opción</button>
         </div>
-
-        <!-- Contenedor de resultados -->
         <div id="resultados" class="resultados"></div>
     </div>
 
     <script src="script.js"></script>
 </body>
-
 </html>

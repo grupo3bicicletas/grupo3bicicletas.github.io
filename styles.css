@@ -1,92 +1,76 @@
+/* Estilos generales */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
+    background-color: #2c3e50;
     margin: 0;
     padding: 0;
 }
 
 .container {
-    width: 70%;
-    margin: auto;
-    background: #fff;
+    width: 80%;
+    margin: 50px auto;
+    background-color: #34495e;
+    padding: 30px;
     border-radius: 10px;
-    padding: 20px;
     box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
-    margin-top: 30px;
+    text-align: center;
 }
 
 h1 {
-    text-align: center;
-    color: #333;
-    margin-bottom: 20px;
+    color: #fff;
+    font-size: 36px;
 }
 
-.inputs,
-.opciones {
-    margin-bottom: 20px;
-    text-align: center;
+.formulario {
+    margin: 20px 0;
+    background-color: #1abc9c;
+    padding: 20px;
+    border-radius: 10px;
 }
 
 label {
+    color: #fff;
+    font-size: 18px;
     display: block;
-    margin: 10px 0 5px;
-    color: #555;
-    font-weight: bold;
+    margin-bottom: 10px;
 }
 
-input,
 select {
-    width: calc(100% - 20px);
+    width: 100%;
     padding: 10px;
     margin-bottom: 10px;
-    border: 1px solid #ccc;
+    font-size: 16px;
     border-radius: 5px;
-    font-size: 14px;
+    border: 1px solid #16a085;
+    color: #34495e;
 }
 
 button {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #4CAF50;
+    background-color: #16a085;
     color: #fff;
+    font-size: 18px;
+    padding: 15px;
+    width: 100%;
     border: none;
     border-radius: 5px;
-    margin: 10px;
     cursor: pointer;
-    font-size: 16px;
-    width: 100%;
 }
 
 button:hover {
-    background-color: #45a049;
-}
-
-.opciones {
-    background-color: #4CAF50;
-    padding: 15px;
-    border-radius: 10px;
-    margin-bottom: 30px;
-}
-
-select {
-    width: 100%;
-    font-size: 16px;
+    background-color: #1abc9c;
 }
 
 .resultados {
     margin-top: 20px;
-    padding: 10px;
-    background: #f9f9f9;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    overflow: auto;
-    max-height: 500px;
-    text-align: center;
+    padding: 20px;
+    background: #ecf0f1;
+    border-radius: 10px;
+    border: 1px solid #bdc3c7;
+    max-height: 400px;
+    overflow-y: scroll;
 }
 
 .resultados pre {
     white-space: pre-wrap;
     word-wrap: break-word;
-    font-size: 14px;
-    color: #333;
 }
