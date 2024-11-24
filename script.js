@@ -1,96 +1,55 @@
 // Variables globales
 let bicicletasData = [];
-let matrizTransicion = [];
 let estaciones = [];
 
-// Generar matriz de bicicletas
+// Función para generar la matriz de bicicletas
 function generarMatriz() {
     const numEstaciones = parseInt(document.getElementById('numEstaciones').value);
     const numBicicletas = parseInt(document.getElementById('numBicicletas').value);
     const numDias = parseInt(document.getElementById('numDias').value);
 
     if (numEstaciones < 2 || numBicicletas < 1 || numDias < 1) {
-        alert("Por favor, verifica los valores ingresados.");
+        alert("Por favor, ingresa valores válidos para generar la matriz.");
         return;
     }
 
     estaciones = Array.from({ length: numEstaciones }, (_, i) => `E${i + 1}`);
-    bicicletasData = Array.from({ length: numBicicletas }, () =>
-        Array.from({ length: numDias }, () => estaciones[Math.floor(Math.random() * numEstaciones)])
+    bicicletasData = Array.from({ length: numDias }, () =>
+        Array.from({ length: numBicicletas }, () => estaciones[Math.floor(Math.random() * numEstaciones)])
     );
 
-    document.getElementById('resultados').innerHTML = '<p>Matriz generada correctamente.</p>';
+    document.getElementById('resultados').innerHTML = '<p style="color: green;">Matriz generada correctamente.</p>';
 }
 
-// Mostrar matriz de bicicletas
+// Función para mostrar la matriz de bicicletas en tabla
 function mostrarMatrizBicicletas() {
     if (!bicicletasData.length) {
-        alert("Primero genera la matriz de bicicletas.");
+        alert("Primero debes generar la matriz de bicicletas.");
         return;
     }
 
-    const resultado = bicicletasData
-        .map((bicicleta, index) => `B${index + 1}: ${bicicleta.join(', ')}`)
-        .join('\n');
+    let tabla = `<table>
+        <thead>
+            <tr>
+                <th>Día</th>${bicicletasData[0].map((_, i) => `<th>B${i + 1}</th>`).join('')}
+            </tr>
+        </thead>
+        <tbody>`;
 
-    document.getElementById('resultados').innerHTML = `<pre>${resultado}</pre>`;
-}
-
-// Calcular matriz de transición
-function calcularMatrizTransicion() {
-    if (!bicicletasData.length) {
-        alert("Primero genera la matriz de bicicletas.");
-        return;
-    }
-
-    const numEstaciones = estaciones.length;
-    matrizTransicion = Array.from({ length: numEstaciones }, () => Array(numEstaciones).fill(0));
-
-    bicicletasData.forEach(bicicleta => {
-        for (let i = 0; i < bicicleta.length - 1; i++) {
-            const origen = estaciones.indexOf(bicicleta[i]);
-            const destino = estaciones.indexOf(bicicleta[i + 1]);
-            matrizTransicion[origen][destino]++;
-        }
+    bicicletasData.forEach((dia, index) => {
+        tabla += `<tr>
+            <td>Día ${index + 1}</td>${dia.map(estacion => `<td>${estacion}</td>`).join('')}
+        </tr>`;
     });
 
-    matrizTransicion = matrizTransicion.map(fila => {
-        const suma = fila.reduce((acc, val) => acc + val, 0);
-        return fila.map(val => (suma === 0 ? 0 : val / suma));
-    });
+    tabla += '</tbody></table>';
 
-    const resultado = matrizTransicion
-        .map((fila, index) => `De ${estaciones[index]}: ${fila.map(v => v.toFixed(2)).join(', ')}`)
-        .join('\n');
-
-    document.getElementById('resultados').innerHTML = `<pre>${resultado}</pre>`;
-}
-
-// Calcular distribución estacionaria
-function calcularDistribucionEstacionaria() {
-    if (!matrizTransicion.length) {
-        alert("Primero calcula la matriz de transición.");
-        return;
-    }
-
-    const numEstaciones = estaciones.length;
-    let vector = Array(numEstaciones).fill(1 / numEstaciones);
-
-    for (let iter = 0; iter < 100; iter++) {
-        vector = matrizTransicion[0].map((_, colIndex) =>
-            matrizTransicion.reduce((sum, fila, rowIndex) => sum + fila[colIndex] * vector[rowIndex], 0)
-        );
-    }
-
-    const resultado = estaciones
-        .map((estacion, index) => `${estacion}: ${vector[index].toFixed(4)}`)
-        .join('\n');
-
-    document.getElementById('resultados').innerHTML = `<pre>${resultado}</pre>`;
+    document.getElementById('resultados').innerHTML = `
+        <h3>Resultado:</h3>
+        ${tabla}
+    `;
 }
 
 // Eventos
 document.getElementById('generarMatriz').addEventListener('click', generarMatriz);
 document.getElementById('verMatriz').addEventListener('click', mostrarMatrizBicicletas);
-document.getElementById('verMatrizTransicion').addEventListener('click', calcularMatrizTransicion);
-document.getElementById('verDistribucionEstacionaria').addEventListener('click', calcularDistribucionEstacionaria);
